@@ -1,5 +1,4 @@
 ###########################################################
-#Author = Cloud Aseem
 #Target = this main tf file to create a vpc, product subnet & EC2 instance & run the shell script to install tools 
 ###########################################################
 
@@ -80,7 +79,7 @@ resource "aws_security_group" "Project-sg10" {
 resource "aws_instance" "newproject" {
     ami                    = "ami-03f4878755434977f"   # change ami id for different region
     instance_type          = "t2.large" #change in your case with existing key
-    key_name               = "test1245"
+    key_name               = "first-server"
     subnet_id              = aws_subnet.product1.id
     availability_zone      = "ap-south-1a"  # Specify a different Availability Zone
     associate_public_ip_address = true  # Add this line to associate a public IP address    

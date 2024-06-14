@@ -15,7 +15,7 @@ pipeline{
         }
         stage('Checkout from Git'){
             steps{
-                git branch: 'main', url: 'https://github.com/Aseemakram19/bingo1.git'
+                git branch: 'main', url: 'https://github.com/imkiran13/Bingo-App-CICD.git'
             }
         }
         stage("Sonarqube Analysis "){
@@ -38,5 +38,38 @@ pipeline{
                 sh "npm install"
             }
         }
+        stage('OWASP FS SCAN') {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+            stage('TRIVY FS SCAN') {
+            steps {
+                sh "trivy fs . > trivyfs.txt"
+            }
+        }
+        stage("Docker Build & Push"){
+            steps{
+                script{
+                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
+                       sh "docker build -t bingo ."
+                       sh "docker tag bingo imkiran13/bingo:latest "
+                       sh "docker push imkiran13/bingo:latest "
+                    }
+                }
+            }
+        }
+        stage("TRIVY"){
+            steps{
+                sh "trivy image imkiran13/bingo:latest > trivyimage.txt" 
+            }
+        }
+        stage('Deploy to container'){
+            steps{
+                sh 'docker run -d --name bingo -p 3000:3000 imkiran13/bingo:latest'
+            }
+        }
+
     }
 }
