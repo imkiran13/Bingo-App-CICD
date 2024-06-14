@@ -1,9 +1,6 @@
 #!/bin/bash
 
-#################################################################
-#Author : Mohammed Aseem - YOUTUBE CHANNEL - CLOUDASEEM
-#This will install Jenkins and Docker and Sonarqube and trivy
-####################################################################
+
 
 # Update the package list to make sure you have the latest information about available packages
 sudo apt update -y

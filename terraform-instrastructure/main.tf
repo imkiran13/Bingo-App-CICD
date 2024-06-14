@@ -1,5 +1,4 @@
 ###########################################################
-#Author = Cloud Aseem
 #Target = this main tf file to create a vpc, product subnet & EC2 instance & run the shell script to install tools 
 ###########################################################
 
